@@ -5,6 +5,8 @@ class CitiesController < ApplicationController
 
   def show
     @city = City.find(params[:id])
+    @recommendation=Recommendation.where ({:city_id => @city.id})
+    @maxlikes="0"
   end
 
   def new

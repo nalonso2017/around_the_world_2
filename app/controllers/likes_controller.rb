@@ -17,7 +17,7 @@ class LikesController < ApplicationController
     @like.user_id = params[:user_id]
 
     if @like.save
-      redirect_to "/likes", :notice => "Like created successfully."
+      redirect_to "/recommendations/", :notice => "Like recorded successfully."
     else
       render 'new'
     end

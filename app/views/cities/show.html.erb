@@ -1,17 +1,217 @@
 <div class="page-header">
-  <h3>City #<%= @city.id %></h3>
+  <h3><%= @city.name %></h3>
 </div>
 
 <div class="row">
   <div class="col-md-12">
-    <dl class="dl-horizontal">
-      <dt>Name</dt>
-      <dd><%= @city.name %></dd>
-
-      <dt>Country</dt>
+    <dl>
+      <h4>Country</h4>
       <dd><%= @city.country %></dd>
 
     </dl>
+
+    <% @recommendation.each do |recommendation| %>
+    <div>
+
+
+      <% if Like.where(:recommendation_id => recommendation.id).count > @maxlikes.to_i %>
+      <% @maxlikes = Like.where(:recommendation_id => recommendation.id).count %>
+
+      <%end%>
+
+    </tr>
+
+    <% end %>
+
+  </div>
+
+
+  <h4> Top recommendations </h4>
+
+    <% @recommendation.each do |recommendation| %>
+    <div>
+      <tr>
+        <%  if  Like.where(:recommendation_id => recommendation.id).count == @maxlikes.to_i %>
+
+        <tr>
+          <td><a href="/recommendations/<%=recommendation.id%>"><%=recommendation.name%></a> </td>
+
+          <td><img src="<%= recommendation.image %>"  width="100" ></td>
+
+          <td><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> <%=Like.where(:recommendation_id => recommendation.id).count %></td>
+        </tr>
+
+        <%end%>
+
+      </tr>
+    </div>
+    <% end %>
+
+  
+</div>
+
+</div>
+
+
+<div class="row">
+  <div class="col-md-12">
+
+
+    <h4>All Recommendations </h4>
+
+    <dt>Restaurants:</dt>
+
+    <% @recommendation.each do |recommendation| %>
+    <div>
+
+      <%  if recommendation.category == "Restaurant" %>
+
+      <tr>
+        <td><a href="/recommendations/<%=recommendation.id%>"><%=recommendation.name%></a> </td>
+        <td><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> <%=Like.where(:recommendation_id => recommendation.id).count %></td>
+
+        <% if Like.where(:recommendation_id => recommendation.id).count > @maxlikes.to_i %>
+        <% @maxlikes = Like.where(:recommendation_id => recommendation.id).count %>
+
+        <%end%>
+
+      </tr>
+
+      <% end %>
+
+    </div>
+    <% end %>
+
+    <dt>Hotels:</dt>
+
+    <% @recommendation.each do |recommendation| %>
+    <div>
+
+      <%  if recommendation.category == "Hotel" %>
+
+      <tr>
+        <td><a href="/recommendations/<%=recommendation.id%>"><%=recommendation.name%></a> </td>
+        <td><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> <%=Like.where(:recommendation_id => recommendation.id).count %></td>
+
+      </tr>
+
+      <% if Like.where(:recommendation_id => recommendation.id).count > @maxlikes.to_i %>
+      <%  @maxlikes = Like.where(:recommendation_id => recommendation.id).count %>
+
+      <%end%>
+
+      <% end %>
+
+    </div>
+    <% end %>
+
+    <dt>Activities:</dt>
+
+    <% @recommendation.each do |recommendation| %>
+    <div>
+
+      <%  if recommendation.category == "Activity" %>
+
+      <tr>
+        <td><a href="/recommendations/<%=recommendation.id%>"><%=recommendation.name%></a> </td>
+        <td><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> <%=Like.where(:recommendation_id => recommendation.id).count %></td>
+
+      </tr>
+
+      <% if Like.where(:recommendation_id => recommendation.id).count > @maxlikes.to_i %>
+      <%  @maxlikes = Like.where(:recommendation_id => recommendation.id).count %>
+
+      <%end%>
+
+      <% end %>
+
+
+
+    </div>
+    <% end %>
+
+
+
+  </div>
+</div>
+
+
+
+<div class="row">
+  <div class="col-md-12">
+    <form action="/create_recommendation" method="post">
+      <!-- Hidden input for authenticity token to protect from forgery -->
+      <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+
+
+      <h4>Add a new recommendation to this city:</h4>
+
+      <!-- Label and input for name -->
+      <div class="form-group">
+        <label for="name" class="control-label">
+          Name
+        </label>
+
+        <input type="text" id="name" name="name" placeholder="Name" class="form-control" value="">
+      </div>
+
+      <!-- Label and input for category -->
+      <div class="form-group">
+        <label for="category" class="control-label">
+          Category
+        </label>
+
+        <%= select_tag(:category, options_for_select(["Hotel","Restaurant","Activity"], ), :class => "form-control") %>
+
+      </div>
+
+      <!-- Label and input for city_id -->
+      <div class="form-group">
+
+        <input type="hidden" id="city_id" name="city_id" placeholder="City" class="form-control" value="<%=@city.id%>">
+
+
+      </div>
+
+      <!-- Label and input for image -->
+      <div class="form-group">
+        <label for="image" class="control-label">
+          Image
+        </label>
+
+        <input type="text" id="image" name="image" placeholder="Image" class="form-control" value="">
+      </div>
+
+      <!-- Label and input for notes -->
+      <div class="form-group">
+        <label for="notes" class="control-label">
+          Notes
+        </label>
+
+        <textarea id="notes" name="notes" placeholder="Notes" class="form-control" rows="3"></textarea>
+      </div>
+
+      <!-- Label and input for user_id -->
+      <div class="form-group">
+
+      </div>
+
+
+      <button class="btn btn-success">
+        Create Recommendation
+      </button>
+      or
+      <a href="/recommendations">Cancel</a>
+    </form>
+  </div>
+</div>
+
+<div class="form-group">
+
+</div>
+
+<div class="row">
+  <div class="col-md-12">
 
     <div class="btn-group btn-group-justified">
       <a href="/cities" class="btn btn-primary">
