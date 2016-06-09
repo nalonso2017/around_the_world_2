@@ -1,6 +1,7 @@
 class RecommendationsController < ApplicationController
   def index
-    @recommendations = Recommendation.all
+    @q =  Recommendation.ransack(params[:q])
+    @recommendations = @q.result.includes(:city)
   end
 
   def show

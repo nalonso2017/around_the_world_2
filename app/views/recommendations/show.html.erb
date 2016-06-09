@@ -16,9 +16,7 @@
       <dt>Image</dt>
       <dd> <img src="<%= @recommendation.image %>"  width="300" ></dd>
 
-      <dt>User</dt>
-        <dd><%= User.find_by(:id => @recommendation.user_id).name %></dd>
-
+      
 
       <dt>Notes</dt>
       <dd><%= @recommendation.notes %></dd>

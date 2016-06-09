@@ -10,6 +10,43 @@
 
     </dl>
 
+    <div id="map"></div>
+    <script>
+        function initMap() {
+          var mapDiv = document.getElementById('map');
+          var map = new google.maps.Map(mapDiv, {
+            center: {lat: <%= @latitude.to_s %>, lng: <%= @longitude.to_s %>},
+            zoom: 8
+          });
+
+
+
+
+          var marker = new google.maps.Marker({
+            position: {lat: <%= @latitude.to_s %>, lng: <%= @longitude.to_s %>},
+            map: map,
+            title: 'Hello World!',
+            icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'
+          });
+
+          marker.addListener('click', function() {
+            infowindow.open(map, marker);
+          });
+
+        };
+
+        </script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBqorduvzpO1mRWJaC_tBowmmsLojlqt_8&callback=initMap"
+     async defer></script>
+
+<dl>
+<h4>Weather</h4>
+<dd>Current temperatue: <%=@current_temperature%>ºF </dd>
+<dd>Next days: <%=@summary_of_next_several_days%></dd>
+
+</dl>
+
+
     <% @recommendation.each do |recommendation| %>
     <div>
 
@@ -47,7 +84,7 @@
     </div>
     <% end %>
 
-  
+
 </div>
 
 </div>
@@ -139,7 +176,7 @@
 
 <div class="row">
   <div class="col-md-12">
-    <form action="/create_recommendation" method="post">
+    <form enctype="multipart/form-data" action="/create_recommendation" method="post">
       <!-- Hidden input for authenticity token to protect from forgery -->
       <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
 
@@ -179,7 +216,7 @@
           Image
         </label>
 
-        <input type="text" id="image" name="image" placeholder="Image" class="form-control" value="">
+        <input type="file" id="image" name="image" placeholder="Image" class="form-control" value="">
       </div>
 
       <!-- Label and input for notes -->

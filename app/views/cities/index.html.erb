@@ -1,9 +1,31 @@
 <div class="page-header">
   <h1>
     Cities
-    <a href="/cities/new" class="btn btn-lg btn-success">New City</a>
+    <a href="/cities/new" class="btn btn-lg btn-success"><i class="fa fa-plus" aria-hidden="true"></i></a>
   </h1>
 </div>
+
+<%= search_form_for @q do |f| %>
+  <p class="lead">Narrow results:</p>
+
+  <div class="form-group">
+    <%= f.label :country_cont, "By country" %>
+    <%= f.text_field :country_cont, :class => "form-control", :placeholder => "Country" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :name_cont, "By city" %>
+    <%= f.text_field :name_cont, :class => "form-control", :placeholder => "City" %>
+  </div>
+
+
+
+  <%= f.submit :class => "btn btn-primary btn-block" %>
+
+  <a href="/cities" class="btn btn-default btn-block">Clear filters</a>
+<% end %>
+
+
 
 <div class="row">
   <div class="col-md-12">

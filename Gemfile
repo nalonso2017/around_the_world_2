@@ -1,5 +1,9 @@
 source 'https://rubygems.org'
 
+gem 'carrierwave'
+
+gem 'ransack'
+
 gem "devise"
 
 gem "starter_generators", :git => "http://github.com/raghubetina/starter_generators.git"

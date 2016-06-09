@@ -9,30 +9,26 @@
 <% end %>
 
 <div class="page-header">
-  <h3>Edit Recommendation #<%= @recommendation.id %></h3>
+  <h3>Edit Recommendation <%= @recommendation.name %></h3>
 </div>
 
 <div class="row">
   <div class="col-md-12">
-    <form action="/update_recommendation/<%= @recommendation.id %>" method="post">
+    <form enctype="multipart/form-data" action="/update_recommendation/<%= @recommendation.id %>" method="post">
       <!-- Hidden input for authenticity token to protect from forgery -->
       <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
 
-      <!-- Label and input for notes -->
+      <!-- Label and input for name -->
       <div class="form-group">
-        <label for="notes" class="control-label">
-          Notes
+        <label for="name" class="control-label">
+          Name
         </label>
 
-        <textarea id="notes" name="notes" placeholder="Notes" class="form-control" rows="3"><%= @recommendation.notes %></textarea>
+        <input type="text" id="name" name="name" placeholder="Name" class="form-control" value="<%= @recommendation.name %>">
       </div>
 
       <!-- Label and input for user_id -->
       <div class="form-group">
-        <label for="user_id" class="control-label">
-          User
-        </label>
-
         <input type="hidden" id="user_id" name="user_id" placeholder="User" class="form-control" value="<%= current_user.id %>">
       </div>
 
@@ -42,7 +38,7 @@
           Category
         </label>
 
-        <input type="text" id="category" name="category" placeholder="Category" class="form-control" value="<%= @recommendation.category %>">
+      <%= select_tag(:category, options_for_select(["Hotel","Restaurant","Activity"], @recommendation.category), :class => "form-control") %>
       </div>
 
       <!-- Label and input for city_id -->
@@ -51,7 +47,13 @@
           City
         </label>
 
-        <input type="text" id="city_id" name="city_id" placeholder="City" class="form-control" value="<%= @recommendation.city_id %>">
+        <label for="city_id" class="control-label">
+          City
+        </label>
+
+        <%= select_tag(:city_id, options_from_collection_for_select(City.all, :id, :name, @recommendation.city_id), :class => "form-control") %>
+
+
       </div>
 
       <!-- Label and input for image -->
@@ -60,16 +62,18 @@
           Image
         </label>
 
-        <input type="text" id="image" name="image" placeholder="Image" class="form-control" value="<%= @recommendation.image %>">
+        <input type="file" id="image" name="image" placeholder="Image" class="form-control" value="<%= @recommendation.image %>">
       </div>
 
-      <!-- Label and input for name -->
+
+
+      <!-- Label and input for notes -->
       <div class="form-group">
-        <label for="name" class="control-label">
-          Name
+        <label for="notes" class="control-label">
+          Notes
         </label>
 
-        <input type="text" id="name" name="name" placeholder="Name" class="form-control" value="<%= @recommendation.name %>">
+        <textarea id="notes" name="notes" placeholder="Notes" class="form-control" rows="3"><%= @recommendation.notes %></textarea>
       </div>
 
       <button class="btn btn-warning">
