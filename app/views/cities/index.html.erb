@@ -6,7 +6,7 @@
 </div>
 
 <%= search_form_for @q do |f| %>
-  <p class="lead">Narrow results:</p>
+  <p class="lead">Search cities:</p>
 
   <div class="form-group">
     <%= f.label :country_cont, "By country" %>
@@ -20,9 +20,9 @@
 
 
 
-  <%= f.submit :class => "btn btn-primary btn-block" %>
+  <%= f.submit :class => "btn btn-primary" %>
 
-  <a href="/cities" class="btn btn-default btn-block">Clear filters</a>
+  <a href="/cities" class="btn btn-default">Clear filters</a>
 <% end %>
 
 
